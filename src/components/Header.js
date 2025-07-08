@@ -1,5 +1,3 @@
-import Logo from '../assets/Images/Logo.svg';
-import Logo2 from "../assets/Images/Logo2.svg"
 import { FiShoppingCart } from "react-icons/fi"
 import Link from './Link';
 import { NavLink } from 'react-router-dom';

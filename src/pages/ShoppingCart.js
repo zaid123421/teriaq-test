@@ -34,7 +34,7 @@ export default function ShoppingCart() {
           <div className="flex items-center flex-row-reverse mt-8 justify-between">
             <div>
               <p className="text-[#DD1015] text-3xl">كبة شاورما لحمة</p>
-              <p className="text-[#BBBBBB] text-lg">الملاحظات ان وجدت</p>
+              <p className="text-[#BBBBBB] text-lg w-[200px]">الملاحظات ان وجدت</p>
             </div>
             <div className="flex items-center">
               <button className="bg-gray-100 hover:bg-gray-200 duration-300 rounded-full p-2" onClick={decrement}>
@@ -55,7 +55,7 @@ export default function ShoppingCart() {
           <div className="flex items-center flex-row-reverse mt-8 justify-between">
             <div>
               <p className="text-[#DD1015] text-3xl">كبة شاورما لحمة</p>
-              <p className="text-[#BBBBBB] text-lg">الملاحظات ان وجدت</p>
+              <p className="text-[#BBBBBB] text-lg w-[200px]">بدي بطاطا مع مخلل بدون دبس وحد وممكن نكترلها مايونيز لو سمحت</p>
             </div>
             <div className="flex items-center">
               <button className="bg-gray-100 hover:bg-gray-200 duration-300 rounded-full p-2" onClick={decrement}>
@@ -76,7 +76,7 @@ export default function ShoppingCart() {
           <div className="flex items-center flex-row-reverse mt-8 justify-between">
             <div>
               <p className="text-[#DD1015] text-3xl">كبة شاورما لحمة</p>
-              <p className="text-[#BBBBBB] text-lg">الملاحظات ان وجدت</p>
+              <p className="text-[#BBBBBB] text-lg w-[200px]">الملاحظات ان وجدت</p>
             </div>
             <div className="flex items-center">
               <button className="bg-gray-100 hover:bg-gray-200 duration-300 rounded-full p-2" onClick={decrement}>
@@ -84,7 +84,7 @@ export default function ShoppingCart() {
               </button>
                 <span className="text-center mx-5 w-[15px] text-xl">{count}</span>
               <button className="bg-gray-100 hover:bg-gray-200 duration-300 rounded-full p-2" onClick={increment}>
-                <IoMdAdd  className="text-2xl text-[#22935F]" />
+                <IoMdAdd className="text-2xl text-[#22935F]" />
               </button>
             </div>
             <div className="text-[#22935F] bold-text text-2xl">
