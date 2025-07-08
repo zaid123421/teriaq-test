@@ -4,15 +4,18 @@ import Footer from "../components/Footer";
 import Contact from "../components/Contact";
 import Map from "../assets/Images/Map.svg";
 import { MdLocationOn } from "react-icons/md";
+import Logo from '../assets/Images/Logo.svg';
 
 export default function Home() {
   return (
     <div>
-      <Header />
+      <Header className="absolute top-0" text="text-white" img={Logo} />
       <section className="w-full h-screen bg-contain">
         <img className="w-full" alt="home_image" src={home_image} />
-        <div className="container text-3xl text-white absolute top-[50%] text-right">
-          مرحبا
+        <div className="container text-3xl text-white absolute top-[50%] text-right flex justify-end">
+          <p dir="rtl" className="w-[450px] text-right leading-[2]">
+            عنوانك للاستمتاع بالنكهة السورية الأصيلة من الشاورما والبروستد والسناك.
+          </p>
         </div>
       </section>
       <section className="p-8 flex flex-col justify-center items-center mt-10 mb-[300px]">
