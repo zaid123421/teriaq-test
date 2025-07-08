@@ -2,16 +2,16 @@
   font-family: 'Bein';
   src: url('./assets/fonts/ArbFONTS-4_AF.ttf') format('truetype');
   font-weight: 400;
-  font-style: normal;
-  font-display: swap;
 }
 
 @font-face {
   font-family: 'Bein';
   src: url('./assets/fonts/ArbFONTS-bein-ar-black.ttf') format('truetype');
   font-weight: 700;
-  font-style: normal;
-  font-display: swap;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 body {
@@ -20,6 +20,5 @@ body {
 }
 
 .bold-text {
-  font-family: 'Bein', sans-serif;
   font-weight: 700;
 }
