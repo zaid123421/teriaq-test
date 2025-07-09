@@ -10,8 +10,8 @@
   font-weight: 700;
 }
 
-* {
-  box-sizing: border-box;
+html {
+  scroll-behavior: smooth;
 }
 
 body {

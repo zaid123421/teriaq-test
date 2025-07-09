@@ -8,6 +8,7 @@ import { CartContext } from "../context/MealContext";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Logo2 from "../assets/Images/Logo2.svg"
+import axios from "axios";
 
 export default function ShoppingCart() {
   const { shoppingCart, removeMeal, incrementQuantity, decrementQuantity } = useContext(CartContext);
@@ -15,6 +16,24 @@ export default function ShoppingCart() {
   const totalPrice = shoppingCart.reduce(
     (total, meal) => total + (meal.price * meal.quantity), 0
   );
+
+  async function Order() {
+    try {
+      const res = await axios.post("https://fakeUrl",
+        {
+          meals: shoppingCart,
+          price: totalPrice
+        },
+        { headers: {
+          // "Authorization" : token
+          }
+        }
+      );
+      console.log("Success");
+    } catch {
+      console.log("Failure");
+    }
+  }
 
   return (
     <>
@@ -26,7 +45,7 @@ export default function ShoppingCart() {
             <FiShoppingCart className="pr-1 text-4xl" />
           </div>
           {shoppingCart.length === 0 && (
-            <p dir="rtl" className="text-center mt-10 text-gray-500">لا يوجد عناصر في السلة</p>
+            <p dir="rtl" className="text-center text-xl mt-10 text-gray-500">لا يوجد عناصر في السلة</p>
           )}
           {shoppingCart.map((meal, index) => (
             <div
@@ -71,7 +90,7 @@ export default function ShoppingCart() {
           ))}
         </div>
         <div className="bg-white container rounded-xl flex py-2 px-8 relative">
-          <button className="absolute left-0 top-0 h-full bg-[#22935F] text-white rounded-xl flex items-center flex-start w-[400px] justify-center text-2xl hover:bg-[#1c744c] duration-300">
+          <button onClick={Order} className="absolute left-0 top-0 h-full bg-[#22935F] text-white rounded-xl flex items-center flex-start w-[400px] justify-center text-2xl hover:bg-[#1c744c] duration-300">
             اطلب الآن
             <FaWhatsapp className="text-3xl ml-3" />
           </button>

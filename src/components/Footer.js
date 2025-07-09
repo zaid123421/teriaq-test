@@ -12,11 +12,11 @@ export default function Footer() {
       <nav className='w-full'>
         <ul className='text-white mt-5 flex flex-row-reverse justify-center'>
           <Link toPlace="/" label="الرئيسية" />
-          <Link toPlace="/3vwer" label="الأصناف الأكثر طلباً" />
-          <Link toPlace="/vfvwe" label="قائمة الطعام" />
-          <Link toPlace="/wre2" label="من نحن" />
-          <Link toPlace="/wre2" label="المقالات" />
-          <Link toPlace="/wre2" label="تواصل معنا" />
+          <Link toPlace="#most-popular" label="الأصناف الأكثر طلباً" />
+          <Link toPlace="#food-list" label="قائمة الطعام" />
+          <Link toPlace="#who-us" label="من نحن" />
+          <Link label="المقالات" className={`cursor-pointer`} />
+          <Link toPlace="#contact-us" label="تواصل معنا" />
         </ul>
       </nav>
       <div className='flex text-white mt-5'>

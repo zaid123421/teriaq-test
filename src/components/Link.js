@@ -1,9 +1,7 @@
-import { NavLink } from "react-router-dom";
-
 export default function Link({ toPlace, label, className }) {
   return(
-    <NavLink to={toPlace} className={({ isActive }) => `${className} pb-2 ml-7 text-xl ${isActive ? `border-b-2 border-red-500` : ``}`}>
+    <a href={toPlace} className={`pb-2 ml-7 text-xl border-b-2 border-transparent hover:border-[#DD1015] duration-300 ${className}`}>
       {label}
-    </NavLink>
+    </a>
   );
 }
