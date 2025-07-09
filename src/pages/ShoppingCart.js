@@ -1,99 +1,74 @@
-import Header from "../components/Header";
-import Logo2 from "../assets/Images/Logo2.svg"
-import Footer from "../components/Footer";
-import { FiShoppingCart } from "react-icons/fi"
-import { LuTrash } from "react-icons/lu";
+import React, { useContext } from "react";
+import { FiShoppingCart } from "react-icons/fi";
+import { FaMinus } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
-import { FaMinus } from "react-icons/fa6";
+import { LuTrash } from "react-icons/lu";
 import { FaWhatsapp } from "react-icons/fa";
-import { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { CartContext } from "../context/MealContext";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Logo2 from "../assets/Images/Logo2.svg"
 
 export default function ShoppingCart() {
-  const [count, setCount] = useState(1);
+  const { shoppingCart, removeMeal, incrementQuantity, decrementQuantity } = useContext(CartContext);
 
-  function increment() {
-    setCount(count + 1);
-  }
+  const totalPrice = shoppingCart.reduce(
+    (total, meal) => total + (meal.price * meal.quantity), 0
+  );
 
-  function decrement() {
-    if(count > 1) {
-      setCount(count - 1);
-    }
-  }
-
-  return(
+  return (
     <>
-      <Header className="bg-gray-200" text="text-black" img={Logo2} />
+      <Header className="bg-gray-200" img={Logo2} />
       <div className="bg-gray-200 w-full flex flex-col items-center p-10">
         <div className="container bg-white rounded-xl text-right h-fit mb-10 p-12">
           <div className="flex justify-end items-center text-[#22935F]">
             <span className="text-4xl mr-3">السلة</span>
-            <FiShoppingCart className='pr-1 text-4xl' />
+            <FiShoppingCart className="pr-1 text-4xl" />
           </div>
-          <div className="flex items-center flex-row-reverse mt-8 justify-between">
-            <div>
-              <p className="text-[#DD1015] text-3xl">كبة شاورما لحمة</p>
-              <p className="text-[#BBBBBB] text-lg w-[200px]">الملاحظات ان وجدت</p>
+          {shoppingCart.length === 0 && (
+            <p dir="rtl" className="text-center mt-10 text-gray-500">لا يوجد عناصر في السلة</p>
+          )}
+          {shoppingCart.map((meal, index) => (
+            <div
+              key={index}
+              className="flex items-center flex-row-reverse mt-8 justify-between"
+            >
+              <div>
+                <p className="text-[#DD1015] text-3xl">{meal.name}</p>
+                <p className="text-[#BBBBBB] text-lg w-[200px]">
+                  {meal.notes ? meal.notes : "الملاحظات ان وجدت"}
+                </p>
+              </div>
+
+              <div className="flex items-center">
+                <button
+                  className="bg-gray-100 hover:bg-gray-200 duration-300 rounded-full p-2"
+                  onClick={() => decrementQuantity(index)}
+                >
+                  <FaMinus className="text-2xl text-gray-300" />
+                </button>
+
+                <span className="flex justify-center text-center mx-5 w-[15px] text-xl">
+                  {meal.quantity || 1}
+                </span>
+
+                <button
+                  className="bg-gray-100 hover:bg-gray-200 duration-300 rounded-full p-2"
+                  onClick={() => incrementQuantity(index)}
+                >
+                  <IoMdAdd className="text-2xl text-[#22935F]" />
+                </button>
+              </div>
+
+              <div className="text-[#22935F] bold-text text-2xl w-[150px]">
+                {(meal.price * (meal.quantity || 1)).toFixed(0)} AED
+              </div>
+
+              <div className="cursor-pointer" onClick={() => removeMeal(index)}>
+                <LuTrash className="text-3xl text-gray-400 hover:text-gray-600 duration-300" />
+              </div>
             </div>
-            <div className="flex items-center">
-              <button className="bg-gray-100 hover:bg-gray-200 duration-300 rounded-full p-2" onClick={decrement}>
-                <FaMinus className="text-2xl text-gray-300" />
-              </button>
-                <span className="text-center mx-5 w-[15px] text-xl">{count}</span>
-              <button className="bg-gray-100 hover:bg-gray-200 duration-300 rounded-full p-2" onClick={increment}>
-                <IoMdAdd  className="text-2xl text-[#22935F]" />
-              </button>
-            </div>
-            <div className="text-[#22935F] bold-text text-2xl">
-              39 AED
-            </div>
-            <div className="cursor-pointer">
-              <LuTrash className="text-3xl text-gray-400 hover:text-gray-600 duration-300" />
-            </div>
-          </div>
-          <div className="flex items-center flex-row-reverse mt-8 justify-between">
-            <div>
-              <p className="text-[#DD1015] text-3xl">كبة شاورما لحمة</p>
-              <p className="text-[#BBBBBB] text-lg w-[200px]">بدي بطاطا مع مخلل بدون دبس وحد وممكن نكترلها مايونيز لو سمحت</p>
-            </div>
-            <div className="flex items-center">
-              <button className="bg-gray-100 hover:bg-gray-200 duration-300 rounded-full p-2" onClick={decrement}>
-                <FaMinus className="text-2xl text-gray-300" />
-              </button>
-                <span className="text-center mx-5 w-[15px] text-xl">{count}</span>
-              <button className="bg-gray-100 hover:bg-gray-200 duration-300 rounded-full p-2" onClick={increment}>
-                <IoMdAdd className="text-2xl text-[#22935F]" />
-              </button>
-            </div>
-            <div className="text-[#22935F] bold-text text-2xl">
-              39 AED
-            </div>
-            <div className="cursor-pointer">
-              <LuTrash className="text-3xl text-gray-400 hover:text-gray-600 duration-300" />
-            </div>
-          </div>
-          <div className="flex items-center flex-row-reverse mt-8 justify-between">
-            <div>
-              <p className="text-[#DD1015] text-3xl">كبة شاورما لحمة</p>
-              <p className="text-[#BBBBBB] text-lg w-[200px]">الملاحظات ان وجدت</p>
-            </div>
-            <div className="flex items-center">
-              <button className="bg-gray-100 hover:bg-gray-200 duration-300 rounded-full p-2" onClick={decrement}>
-                <FaMinus className="text-2xl text-gray-300" />
-              </button>
-                <span className="text-center mx-5 w-[15px] text-xl">{count}</span>
-              <button className="bg-gray-100 hover:bg-gray-200 duration-300 rounded-full p-2" onClick={increment}>
-                <IoMdAdd className="text-2xl text-[#22935F]" />
-              </button>
-            </div>
-            <div className="text-[#22935F] bold-text text-2xl">
-              39 AED
-            </div>
-            <div className="cursor-pointer">
-              <LuTrash className="text-3xl text-gray-400 hover:text-gray-600 duration-300" />
-            </div>
-          </div>
+          ))}
         </div>
         <div className="bg-white container rounded-xl flex py-2 px-8 relative">
           <button className="absolute left-0 top-0 h-full bg-[#22935F] text-white rounded-xl flex items-center flex-start w-[400px] justify-center text-2xl hover:bg-[#1c744c] duration-300">
@@ -105,7 +80,7 @@ export default function ShoppingCart() {
               المجموع (
               <span className="text-gray-400 text-lg">السعر غير متضمن الضريبة والتوصيل</span>)
             </div>
-            <p className="text-[#22935F] bold-text mt-2">202 AED</p>
+            <p className="text-[#22935F] bold-text mt-2">{totalPrice.toFixed(0)} AED</p>
           </div>
         </div>
       </div>
