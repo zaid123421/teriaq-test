@@ -1,18 +1,25 @@
+import Title from "../components/Title";
 import Header from "../components/Header";
-import home_image from "../assets/Images/home_image.svg";
 import Footer from "../components/Footer";
 import Contact from "../components/Contact";
 import ImageComponent from "../components/ImageComponent";
-import Map from "../assets/Images/Map.svg";
 import { MdLocationOn } from "react-icons/md";
+import { meals } from "../data/meals";
+import { useContext } from "react";
+import { CartContext } from "../context/MealContext";
+import Map from "../assets/Images/Map.svg";
 import Logo from '../assets/Images/Logo.svg';
 import shawrma from '../assets/Images/shawrma.svg';
 import snack from '../assets/Images/snack.svg';
 import brosted from '../assets/Images/brosted.svg';
-import Title from "../components/Title";
-import { meals } from "../data/meals";
-import { useContext } from "react";
-import { CartContext } from "../context/MealContext";
+import home_image from "../assets/Images/home_image.jpg";
+import img1 from "../assets/Images/1.jpg"
+import img2 from "../assets/Images/2.jpg"
+import img3 from "../assets/Images/3.jpg"
+import img4 from "../assets/Images/4.jpg"
+import img5 from "../assets/Images/5.jpg"
+import img6 from "../assets/Images/6.jpg"
+
 
 export default function Home() {
   const { addMeal } = useContext(CartContext);
@@ -70,7 +77,12 @@ export default function Home() {
         <article className="mb-10 w-full flex flex-col items-center">
           <Title title="معرض الصور" />
           <div className="grid-template container w-full">
-            <ImageComponent />
+            <ImageComponent imgSrc={img1} />
+            <ImageComponent imgSrc={img2} />
+            <ImageComponent imgSrc={img3} />
+            <ImageComponent imgSrc={img4} />
+            <ImageComponent imgSrc={img5} />
+            <ImageComponent imgSrc={img6} />
           </div>
         </article>
         <article className="relative">
