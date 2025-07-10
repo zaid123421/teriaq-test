@@ -30,7 +30,6 @@ import img6 from "../assets/Images/6.jpg";
 import { NavLink } from "react-router-dom";
 import AddButton from "../components/AddButton";
 
-
 export default function Home() {
   const { addMeal } = useContext(CartContext);
 
@@ -48,7 +47,12 @@ export default function Home() {
         </div>
         <div className="flex items-center justify-between">
           <AddButton onClick={() => addMeal(meal)} />
-          <NavLink to={`/meal-notes/${meal.id}`} className="text-black font-light text-lg border-2  border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2">المزيد</NavLink>
+          <NavLink
+            to={`/meal-notes/${meal.id}`}
+            className="text-black font-light text-lg border-2  border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2"
+          >
+            المزيد
+          </NavLink>
           <div className="flex items-center">
             {Array.from({ length: 5 }).map((_, i) =>
               i < meal.rate ? (
@@ -84,7 +88,10 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="most-popular" className="py-12 bg-gray-200 flex flex-col items-center">
+      <section
+        id="most-popular"
+        className="py-12 bg-gray-200 flex flex-col items-center"
+      >
         <article className="flex justify-center bold-text text-xl">
           <div
             style={{ boxShadow: "0px 10px 20px 2px rgba(0, 0, 0, 0.25)" }}
@@ -124,7 +131,10 @@ export default function Home() {
         </article>
       </section>
 
-      <section id="food-list" className="py-12 bg-black flex flex-col items-center">
+      <section
+        id="food-list"
+        className="py-12 bg-black flex flex-col items-center"
+      >
         <Title title="المنيو" className="text-white" />
         <article className="container flex justify-end gap-4 bold-text text-xl py-10">
           {[
@@ -161,7 +171,12 @@ export default function Home() {
                 </div>
                 <div className="flex justify-between">
                   <AddButton onClick={() => addMeal(meal)} />
-                  <NavLink to={`/meal-notes/${meal.id}`} className="text-black font-light text-lg border-2  border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2">المزيد</NavLink>
+                  <NavLink
+                    to={`/meal-notes/${meal.id}`}
+                    className="text-black font-light text-lg border-2  border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2"
+                  >
+                    المزيد
+                  </NavLink>
                   <div className="flex items-center">
                     {Array.from({ length: 5 }).map((_, i) =>
                       i < meal.rate ? (
@@ -176,7 +191,10 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <article id="who-us" className="container flex mt-[100px] min-h-[500px] rounded-2xl bg-[#251F1D]">
+        <article
+          id="who-us"
+          className="container flex mt-[100px] min-h-[500px] rounded-2xl bg-[#251F1D]"
+        >
           <div className="w-1/2">
             <img
               alt="person"

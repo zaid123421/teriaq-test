@@ -31,7 +31,7 @@ export default function ShoppingCart() {
       );
       console.log("Success");
     } catch {
-      console.log("Failure");
+      console.error("Failure");
     }
   }
 
