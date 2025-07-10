@@ -48,7 +48,7 @@ export default function Home() {
         </div>
         <div className="flex items-center justify-between">
           <AddButton onClick={() => addMeal(meal)} />
-          <NavLink to={`/meal-notes/${meal.id}`} className="text-black font-light text-lg">المزيد</NavLink>
+          <NavLink to={`/meal-notes/${meal.id}`} className="text-black font-light text-lg border-2  border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2">المزيد</NavLink>
           <div className="flex items-center">
             {Array.from({ length: 5 }).map((_, i) =>
               i < meal.rate ? (
@@ -161,7 +161,7 @@ export default function Home() {
                 </div>
                 <div className="flex justify-between">
                   <AddButton onClick={() => addMeal(meal)} />
-                  <NavLink to={`/meal-notes/${meal.id}`} className="text-black font-light text-lg">المزيد</NavLink>
+                  <NavLink to={`/meal-notes/${meal.id}`} className="text-black font-light text-lg border-2  border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2">المزيد</NavLink>
                   <div className="flex items-center">
                     {Array.from({ length: 5 }).map((_, i) =>
                       i < meal.rate ? (
