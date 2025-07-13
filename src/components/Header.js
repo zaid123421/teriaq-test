@@ -5,7 +5,7 @@ import { FaBarsStaggered } from "react-icons/fa6";
 import { useContext, useState } from "react";
 import { CartContext } from "../context/MealContext";
 
-export default function Header({ img, text, className }) {
+export default function Header({ img, text, className, ul }) {
   const [active, setActive] = useState(false);
 
   const shoppingCart = useContext(CartContext);
@@ -20,7 +20,7 @@ export default function Header({ img, text, className }) {
       <nav className='flex items-center justify-between'>
         <img className="md:mr-[10px] hidden md:block" alt='Logo' src={img} />
         <div className="flex flex-row-reverse items-center justify-between">
-          <ul className={`z-[10] md:flex flex-row-reverse text-center items-center ${text} ${active ? `py-5 rounded-2xl bg-gray-500 flex flex-col w-full absolute top-[100%] left-0` : `hidden`}`}>
+          <ul className={`z-[10] md:flex flex-row-reverse text-center items-center ${text} ${active ? `py-5 rounded-2xl bg-gray-500 flex flex-col w-full absolute ${ul} left-0` : `hidden`}`}>
             <Link className="mb-2 md:ml-4" toPlace="/" label="الرئيسية" />
             <Link className="mb-2 md:ml-4" toPlace="#who-us" label="من نحن" />
             <Link className="mb-2 md:ml-4" toPlace="#most-popular" label="الأصناف الأكثر طلباً" />

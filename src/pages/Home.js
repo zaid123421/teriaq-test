@@ -78,7 +78,7 @@ export default function Home() {
 
   return (
     <div>
-      <Header className="absolute top-0" text="text-white" img={Logo} />
+      <Header ul="top-[100%]" className="absolute top-0" text="text-white" img={Logo} />
 
       <section id="main" className="w-full h-screen bg-contain">
         <img className="w-full h-full" alt="home_image" src={home_image} />
@@ -223,7 +223,7 @@ export default function Home() {
         <article id="contact-us" className="container">
           <div
             style={{ boxShadow: "0px 10px 20px 2px rgba(0, 0, 0, 0.25)" }}
-            className="bg-white w-full h-[650px] md:h-[500px] rounded-2xl p-8 shadow-2xl"
+            className="bg-white w-full h-[600px] md:h-[500px] rounded-2xl p-8 shadow-2xl"
           >
             <Title title="تواصل معنا" />
             <div className="flex flex-col md:flex-row justify-center items-center">

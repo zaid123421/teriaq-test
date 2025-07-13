@@ -37,7 +37,7 @@ export default function ShoppingCart() {
 
   return (
     <>
-      <Header text="text-black" className="bg-gray-200" img={Logo2} />
+      <Header ul="top-[10%]" text="text-black" className="bg-gray-200" img={Logo2} />
       <div className="bg-gray-200 w-full flex flex-col items-center p-10">
         <div className="container bg-white rounded-xl text-right h-fit mb-10 p-12">
           <div className="flex justify-end items-center text-[#22935F]">
@@ -48,18 +48,14 @@ export default function ShoppingCart() {
             <p dir="rtl" className="text-center text-xl mt-10 text-gray-500">لا يوجد عناصر في السلة</p>
           )}
           {shoppingCart.map((meal, index) => (
-            <div
-              key={index}
-              className="flex items-center flex-row-reverse mt-8 justify-between"
-            >
-              <div>
+            <div key={index} className="flex items-center flex-col text-center md:text-right md:flex-row-reverse my-8 md:mb-0 justify-between">
+              <div className="mb-5 md:mb-0">
                 <p className="text-[#DD1015] text-3xl">{meal.name}</p>
                 <p className="text-[#BBBBBB] text-lg w-[200px]">
                   {meal.notes ? meal.notes : "الملاحظات ان وجدت"}
                 </p>
               </div>
-
-              <div className="flex items-center">
+              <div className="flex items-center mb-5 md:mb-0">
                 <button
                   className="bg-gray-100 hover:bg-gray-200 duration-300 rounded-full p-2"
                   onClick={() => decrementQuantity(index)}
@@ -78,28 +74,28 @@ export default function ShoppingCart() {
                   <IoMdAdd className="text-2xl text-[#22935F]" />
                 </button>
               </div>
-
-              <div className="text-[#22935F] bold-text text-2xl w-[150px]">
+              <div className="text-[#22935F] bold-text text-2xl w-[150px] mb-5 md:mb-0">
                 {(meal.price * (meal.quantity || 1)).toFixed(0)} AED
               </div>
-
               <div className="cursor-pointer" onClick={() => removeMeal(index)}>
                 <LuTrash className="text-3xl text-gray-400 hover:text-gray-600 duration-300" />
               </div>
             </div>
           ))}
         </div>
-        <div className="bg-white container rounded-xl flex py-2 px-8 relative">
-          <button onClick={Order} className="absolute left-0 top-0 h-full bg-[#22935F] text-white rounded-xl flex items-center flex-start w-[400px] justify-center text-2xl hover:bg-[#1c744c] duration-300">
-            اطلب الآن
-            <FaWhatsapp className="text-3xl ml-3" />
-          </button>
-          <div className="flex-1 text-right text-xl">
-            <div dir="rtl">
-              المجموع (
-              <span className="text-gray-400 text-lg">السعر غير متضمن الضريبة والتوصيل</span>)
+        <div className="bg-white container rounded-xl flex relative">
+          <div className="flex flex-col-reverse md:flex-row w-full">
+            <button onClick={Order} className="flex items-center justify-center bg-[#22935F] hover:bg-[#1c744c] duration-300 text-white rounded-xl md:w-[400px] text-lg md:text-2xl h-[50px] md:h-full w-full">
+              اطلب الآن
+              <FaWhatsapp className="text-3xl ml-3" />
+            </button>
+            <div className="flex-1 text-center md:text-right text-xl py-2 px-8 rounded-xl">
+              <div dir="rtl">
+                المجموع (
+                <span className="text-gray-400 text-lg">السعر غير متضمن الضريبة والتوصيل</span>)
+              </div>
+              <p className="text-[#22935F] bold-text mt-2">{totalPrice.toFixed(0)} AED</p>
             </div>
-            <p className="text-[#22935F] bold-text mt-2">{totalPrice.toFixed(0)} AED</p>
           </div>
         </div>
       </div>

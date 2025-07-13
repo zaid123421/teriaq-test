@@ -70,7 +70,7 @@ export default function MealNotes() {
 
   return(
     <div className="flex flex-col items-center realtive">
-      <Header className="absolute top-0" text="text-white" img={Logo} />
+      <Header ul="top-[100%]" className="absolute top-0" text="text-white" img={Logo} />
       <section className="w-full h-screen bg-contain">
         <img alt="main_image" src={MealImage} className="w-full h-full"/>
       </section>
