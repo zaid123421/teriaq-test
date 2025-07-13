@@ -7,7 +7,7 @@ import { FaTwitter } from "react-icons/fa";
 
 export default function Footer() {
   return(
-    <footer className='text-base md:text-lg lg:text-xl flex flex-col items-center justify-center px-2 py-4 md:py-8 bg-[#251f1d]'>
+    <footer className='w-full text-base md:text-lg lg:text-xl flex flex-col items-center justify-center px-2 py-4 md:py-8 bg-[#251f1d]'>
       <img className='w-[100px] h-[100px]' alt='logo' src={Logo} />
       <nav className='w-full'>
         <ul className='text-white mt-5 flex flex-wrap items-center flex-row-reverse justify-center'>
