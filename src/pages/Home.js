@@ -1,18 +1,26 @@
+// import components
 import Title from "../components/Title";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Contact from "../components/Contact";
 import ImageComponent from "../components/ImageComponent";
+import AddButton from "../components/AddButton";
 
+// import icons
 import { MdLocationOn } from "react-icons/md";
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 
+// import data
 import { meals } from "../data/meals";
 
+// import hooks
 import { useContext, useEffect, useState } from "react";
+
+// import CartContext context
 import { CartContext } from "../context/MealContext";
 
+// import images
 import Map from "../assets/Images/Map.svg";
 import Logo from "../assets/Images/Logo.svg";
 import shawrma from "../assets/Images/shawrma.svg";
@@ -27,20 +35,16 @@ import img4 from "../assets/Images/4.jpg";
 import img5 from "../assets/Images/5.jpg";
 import img6 from "../assets/Images/6.jpg";
 
+// import react-router-dom some tools
 import { NavLink, useLocation } from "react-router-dom";
-import AddButton from "../components/AddButton";
 
 export default function Home() {
+  // use Hooks
+  const [selectedType, setSelectedType] = useState("");
   const { addMeal, shoppingCart } = useContext(CartContext);
-
   const { pathname } = useLocation();
 
-  useEffect(() => {
-  window.scrollTo({
-    top: 0,
-  });
-  }, [pathname]);
-
+  // use data to show in cards
   const showCards = meals.map((meal, index) => (
     <div key={index} className="bg-white shadow-md rounded-2xl">
       <img
@@ -79,10 +83,17 @@ export default function Home() {
     </div>
   ));
 
-  const [selectedType, setSelectedType] = useState("");
-
+  // filter data according to the type
   const filteredMeals = selectedType === "" ? meals : meals.filter((meal) => meal.type === selectedType);
 
+  // uesEffect
+  useEffect(() => {
+  window.scrollTo({
+    top: 0,
+  });
+  }, [pathname]);
+
+  // functions
   function isMealInCart(meal) {
   return shoppingCart.some((item) => item.id === meal.id);
   }

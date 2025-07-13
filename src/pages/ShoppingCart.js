@@ -1,22 +1,35 @@
-import React, { useContext } from "react";
-import { FiShoppingCart } from "react-icons/fi";
-import { FaMinus } from "react-icons/fa";
-import { IoMdAdd } from "react-icons/io";
-import { LuTrash } from "react-icons/lu";
-import { FaWhatsapp } from "react-icons/fa";
-import { CartContext } from "../context/MealContext";
+// import components
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+
+// import icons
+import { FaMinus, FaWhatsapp } from "react-icons/fa";
+import { IoMdAdd } from "react-icons/io";
+import { LuTrash } from "react-icons/lu";
+import { FiShoppingCart } from "react-icons/fi";
+
+// import hooks
+import { useContext } from "react";
+
+// import CartContext context
+import { CartContext } from "../context/MealContext";
+
+// import images
 import Logo2 from "../assets/Images/Logo2.svg"
+
+// import axios library
 import axios from "axios";
 
 export default function ShoppingCart() {
+  // use Hooks
   const { shoppingCart, removeMeal, incrementQuantity, decrementQuantity } = useContext(CartContext);
 
+  // calculate the total price
   const totalPrice = shoppingCart.reduce(
     (total, meal) => total + (meal.price * meal.quantity), 0
   );
 
+  // functions
   async function Order() {
     try {
       const res = await axios.post("https://fakeUrl",

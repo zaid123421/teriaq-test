@@ -1,51 +1,45 @@
+// import coponents
 import Header from "../components/Header";
-
-import Logo from "../assets/Images/Logo.svg";
-import MealImage from "../assets/Images/mealImage.jpg";
-import { meals } from "../data/meals";
-import { NavLink, useLocation, useParams } from "react-router-dom";
-import { useContext, useEffect, useState } from "react";
-import { CartContext } from "../context/MealContext";
 import AddButton from "../components/AddButton";
 import Footer from "../components/Footer";
 import Title from "../components/Title";
 import Contact from "../components/Contact";
+
+// import icons
 import { FaStar } from "react-icons/fa";
 import { FaRegStar } from "react-icons/fa";
 
-export default function MealNotes() {
-  const [note, setNote] = useState("");
+//import data
+import { meals } from "../data/meals";
 
+// import hooks
+import { useContext, useEffect, useState } from "react";
+
+// import react-router-dom some tools
+import { NavLink, useLocation, useParams } from "react-router-dom";
+
+// import CartContext context
+import { CartContext } from "../context/MealContext";
+
+// import images
+import Logo from "../assets/Images/Logo.svg";
+import MealImage from "../assets/Images/mealImage.jpg";
+
+export default function MealNotes() {
+  // use Hooks
+  const [note, setNote] = useState("");
   const { id } = useParams();
   const { addMeal, shoppingCart } = useContext(CartContext);
+  const { pathname } = useLocation();
 
+  // Variables
   const currentMeal = meals.find((meal) => meal.id === parseInt(id));
   const type = currentMeal.type
 
-  function handleClick() {
-    const mealWithNote = {
-      ...currentMeal,
-      notes: note
-    };
-    addMeal(mealWithNote);
-  }
-
-
-  const { pathname } = useLocation();
-
-  useEffect(() => {
-  window.scrollTo({
-    top: 0,
-  });
-  }, [pathname]);
-
-
-  function isMealInCart(meal) {
-  return shoppingCart.some((item) => item.id === meal.id);
-  }
-
+  // filter data according to the type of the currents meal
   const filteredMeals = meals.filter((meal) => meal.type === type);
 
+  // use meal data to show in box
   const showCards = filteredMeals.map((meal, index) => (
     <div key={index} className="bg-white shadow-md rounded-2xl">
       <img
@@ -83,6 +77,26 @@ export default function MealNotes() {
       </div>
     </div>
   ));
+
+  // useEffect
+  useEffect(() => {
+  window.scrollTo({
+    top: 0,
+  });
+  }, [pathname]);
+
+  // functions
+  function handleClick() {
+  const mealWithNote = {
+    ...currentMeal,
+    notes: note
+  };
+  addMeal(mealWithNote);
+  }
+
+  function isMealInCart(meal) {
+  return shoppingCart.some((item) => item.id === meal.id);
+  }
 
   return(
     <div className="flex flex-col items-center realtive">
