@@ -46,13 +46,15 @@ export default function Home() {
           <p className="text-lg">{meal.name}</p>
         </div>
         <div className="flex items-center justify-between">
-          <AddButton onClick={() => addMeal(meal)} />
-          <NavLink
-            to={`/meal-notes/${meal.id}`}
-            className="text-black font-light text-lg border-2  border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2"
-          >
-            المزيد
-          </NavLink>
+          <div className="flex items-center">
+            <AddButton onClick={() => addMeal(meal)} />
+            <NavLink
+              to={`/meal-notes/${meal.id}`}
+              className="ml-1 md:ml-2 text-black font-light text-sm border-2 border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2"
+            >
+              المزيد
+            </NavLink>
+          </div>
           <div className="flex items-center">
             {Array.from({ length: 5 }).map((_, i) =>
               i < meal.rate ? (
@@ -80,22 +82,19 @@ export default function Home() {
 
       <section id="main" className="w-full h-screen bg-contain">
         <img className="w-full h-full" alt="home_image" src={home_image} />
-        <div className="container text-3xl text-white absolute top-[50%] text-right flex justify-end">
-          <p dir="rtl" className="w-[450px] text-right leading-[2]">
+        <div className="w-full px-[25px] md:px-[100px] text-2xl md:text-3xl text-white absolute top-[50%] text-right flex justify-end">
+          <p dir="rtl" className="w-full md:w-[450px] text-center md:text-right leading-[2]">
             عنوانك للاستمتاع بالنكهة السورية الأصيلة من الشاورما والبروستد
             والسناك.
           </p>
         </div>
       </section>
 
-      <section
-        id="most-popular"
-        className="py-12 bg-gray-200 flex flex-col items-center"
-      >
-        <article className="flex justify-center bold-text text-xl">
+      <section id="most-popular" className="py-12 bg-gray-200 flex flex-col items-center">
+        <article className="flex flex-col md:flex-row justify-center bold-text text-xl">
           <div
             style={{ boxShadow: "0px 10px 20px 2px rgba(0, 0, 0, 0.25)" }}
-            className="w-[250px] h-[70px] rounded-xl bg-white flex justify-end items-center text-[#DD1015] px-2"
+            className="w-[200px] lg:w-[250px] h-[70px] rounded-xl bg-white flex justify-end items-center text-[#DD1015] px-2"
           >
             شاورما
             <img
@@ -104,9 +103,8 @@ export default function Home() {
               src={shawrma}
             />
           </div>
-          <div
-            style={{ boxShadow: "0px 10px 20px 2px rgba(0, 0, 0, 0.25)" }}
-            className="w-[250px] h-[70px] rounded-xl bg-white flex justify-end items-center flex mx-8 px-2"
+          <div style={{ boxShadow: "0px 10px 20px 2px rgba(0, 0, 0, 0.25)" }}
+            className="w-[200px] lg:w-[250px] h-[70px] rounded-xl bg-white flex justify-end items-center flex mx-0 md:mx-8 my-3 md:my-0 px-2"
           >
             بروستد
             <img
@@ -117,31 +115,28 @@ export default function Home() {
           </div>
           <div
             style={{ boxShadow: "0px 10px 20px 2px rgba(0, 0, 0, 0.25)" }}
-            className="w-[250px] h-[70px] rounded-xl bg-white flex justify-end items-center text-[#22935F] px-2"
+            className="w-[200px] lg:w-[250px] h-[70px] rounded-xl bg-white flex justify-end items-center text-[#22935F] px-2"
           >
             سناك
             <img className="w-[50px] h-[50px] ml-2" alt="shawrma" src={snack} />
           </div>
         </article>
-        <article className="container flex flex-col mt-[100px] items-center justify-center">
+        <article className="container flex flex-col mt-[50px] md:mt-[100px] items-center justify-center">
           <Title title="الأصناف الأكثر طلباً" />
-          <div className="container grid grid-cols-4 gap-4 flex flex-wrap justify-center">
+          <div className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 px-2 md:px-0 gap-4 flex flex-wrap justify-center">
             {showCards}
           </div>
         </article>
       </section>
 
-      <section
-        id="food-list"
-        className="py-12 bg-black flex flex-col items-center"
-      >
+      <section id="food-list" className="px-2 md:px-0 py-12 bg-black flex flex-col items-center">
         <Title title="المنيو" className="text-white" />
-        <article className="container flex justify-end gap-4 bold-text text-xl py-10">
+        <article className="container flex flex-col md:flex-row-reverse justify-start gap-4 bold-text text-xl mx-2 md:mx-0 py-10">
           {[
+            { label: "جميع الأصناف", value: "" },
             { label: "السندويش", value: "sn" },
             { label: "البروستد", value: "br" },
             { label: "الشاورما", value: "sh" },
-            { label: "جميع الأصناف", value: "" },
           ].map((obj) => (
             <button
               key={obj.value}
@@ -156,7 +151,7 @@ export default function Home() {
             </button>
           ))}
         </article>
-        <div className="container grid grid-cols-4 gap-4 bold-text text-xl">
+        <article className="container grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 mx-2 md:mx-0 gap-4 bold-text text-xl">
           {filteredMeals.map((meal) => (
             <div key={meal.id} className="rounded-2xl">
               <img
@@ -169,14 +164,16 @@ export default function Home() {
                   <p className=" text-[#DD1015]">{meal.price} AED</p>
                   <p className="">{meal.name}</p>
                 </div>
-                <div className="flex justify-between">
-                  <AddButton onClick={() => addMeal(meal)} />
-                  <NavLink
-                    to={`/meal-notes/${meal.id}`}
-                    className="text-black font-light text-lg border-2  border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2"
-                  >
-                    المزيد
-                  </NavLink>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center">
+                    <AddButton onClick={() => addMeal(meal)} />
+                    <NavLink
+                      to={`/meal-notes/${meal.id}`}
+                      className="ml-1 md:ml-2 text-black font-light text-sm border-2 border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2"
+                    >
+                      المزيد
+                    </NavLink>
+                  </div>
                   <div className="flex items-center">
                     {Array.from({ length: 5 }).map((_, i) =>
                       i < meal.rate ? (
@@ -190,24 +187,14 @@ export default function Home() {
               </div>
             </div>
           ))}
-        </div>
-        <article
-          id="who-us"
-          className="container flex mt-[100px] min-h-[500px] rounded-2xl bg-[#251F1D]"
-        >
-          <div className="w-1/2">
-            <img
-              alt="person"
-              src={person}
-              className="rounded-tl-2xl rounded-bl-2xl w-full h-full object-fill"
-            />
+        </article>
+        <article id="who-us" className="container flex flex-col lg:flex-row mt-[25px] md:mt-[100px]">
+          <div className="w-full lg:w-1/2">
+            <img alt="person" src={person} className="rounded-tr-2xl lg:rounded-tr-none rounded-tl-2xl lg:rounded-tl-2xl lg:rounded-bl-2xl w-full h-full object-fill"/>
           </div>
-          <div className="bg-trannsparent text-white text-right p-10 w-1/2">
+          <div className="rounded-b-2xl lg:rounded-b-none lg:rounded-r-2xl bg-[#251F1D] w-full lg:w-1/2 bg-trannsparent text-white text-center lg:text-right p-5 md:p-10">
             <h1 className="text-4xl mb-8">عن سندويشتي</h1>
-            <p
-              dir="rtl"
-              className="text-white text-justify text-2xl leading-[1.75]"
-            >
+            <p dir="rtl" className="text-white text-center lg:text-justify text-base md:text-xl lg:text-2xl leading-[1.75]">
               المطعم هو مكان مخصص لإعداد وتقديم الطعام والوجبات للزبائن، ويعد من
               أهم المنشآت في قطاع الضيافة. يقدم المطعم تشكيلة متنوعة من الأطباق
               التي قد تكون محلية تقليدية أو عالمية، ويتم إعدادها بواسطة طهاة
@@ -221,10 +208,10 @@ export default function Home() {
         </article>
       </section>
 
-      <section className="pt-10 pb-[300px] flex flex-col items-center bg-gray-200">
+      <section className="px-2 md:px-0 pt-10 flex flex-col items-center bg-gray-200">
         <article className="container mb-12">
           <Title title="معرض الصور" />
-          <article className="grid-template pt-10">
+          <article className="grid-template px-2 pt-10">
             <ImageComponent imgSrc={img1} />
             <ImageComponent imgSrc={img2} />
             <ImageComponent imgSrc={img3} />
@@ -233,32 +220,28 @@ export default function Home() {
             <ImageComponent imgSrc={img6} />
           </article>
         </article>
-        <article id="contact-us" className="container relative w-full">
+        <article id="contact-us" className="container">
           <div
             style={{ boxShadow: "0px 10px 20px 2px rgba(0, 0, 0, 0.25)" }}
-            className="bg-white w-full h-[500px] rounded-2xl p-8 shadow-2xl"
+            className="bg-white w-full h-[650px] md:h-[500px] rounded-2xl p-8 shadow-2xl"
           >
             <Title title="تواصل معنا" />
-            <div className="flex justify-center">
-              <Contact
-                className="mr-2"
+            <div className="flex flex-col md:flex-row justify-center items-center">
+              <Contact className="mb-5 md:mb-0 md:mr-2"
                 label="مارينا"
                 number1="+9714 243956"
-                number2="+97156 3773206"
-              />
-              <Contact
-                className="ml-2"
+                number2="+97156 3773206"/>
+              <Contact className="md:ml-2"
                 label="جميرة"
                 bg="bg-[#251f1d]"
                 number1="+9714 3960610"
                 number2="+97150 4402850"
-                text="text-white"
-              />
+                text="text-white"/>
             </div>
           </div>
-          <div className="w-[900px] absolute bottom-[-50%] left-[50%] translate-x-[-50%]">
-            <img alt="map" src={Map} />
-            <MdLocationOn className="absolute top-[100px] left-[400px] text-[#DD1015] text-4xl" />
+          <div className="lg:w-[900px] relative translate-y-[-50%] md:left-[50%] md:translate-x-[-50%]">
+            <img className="w-full relative" alt="map" src={Map} />
+            <MdLocationOn className="absolute top-[15%] left-[45%] text-[#DD1015] text-4xl" />
           </div>
         </article>
       </section>
