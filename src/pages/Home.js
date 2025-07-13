@@ -10,7 +10,7 @@ import { FaRegStar } from "react-icons/fa";
 
 import { meals } from "../data/meals";
 
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../context/MealContext";
 
 import Map from "../assets/Images/Map.svg";
@@ -27,11 +27,19 @@ import img4 from "../assets/Images/4.jpg";
 import img5 from "../assets/Images/5.jpg";
 import img6 from "../assets/Images/6.jpg";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import AddButton from "../components/AddButton";
 
 export default function Home() {
-  const { addMeal } = useContext(CartContext);
+  const { addMeal, shoppingCart } = useContext(CartContext);
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+  window.scrollTo({
+    top: 0,
+  });
+  }, [pathname]);
 
   const showCards = meals.map((meal, index) => (
     <div key={index} className="bg-white shadow-md rounded-2xl">
@@ -47,7 +55,9 @@ export default function Home() {
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <AddButton onClick={() => addMeal(meal)} />
+            <AddButton className = {`${isMealInCart(meal) ? "bg-white text-black" : "bg-black text-white"}`} onClick={() => addMeal(meal)}>
+              {isMealInCart(meal) ? "مضاف للسلة" : "أضف للسلة"}
+            </AddButton>
             <NavLink
               to={`/meal-notes/${meal.id}`}
               className="ml-1 md:ml-2 text-black font-light text-sm border-2 border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2"
@@ -71,10 +81,11 @@ export default function Home() {
 
   const [selectedType, setSelectedType] = useState("");
 
-  const filteredMeals =
-    selectedType === ""
-      ? meals
-      : meals.filter((meal) => meal.type === selectedType);
+  const filteredMeals = selectedType === "" ? meals : meals.filter((meal) => meal.type === selectedType);
+
+  function isMealInCart(meal) {
+  return shoppingCart.some((item) => item.id === meal.id);
+  }
 
   return (
     <div>
@@ -166,7 +177,9 @@ export default function Home() {
                 </div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center">
-                    <AddButton onClick={() => addMeal(meal)} />
+                    <AddButton className = {`${isMealInCart(meal) ? "bg-white text-black" : "bg-black text-white"}`} onClick={() => addMeal(meal)}>
+                      {isMealInCart(meal) ? "مضاف للسلة" : "أضف للسلة"}
+                    </AddButton>
                     <NavLink
                       to={`/meal-notes/${meal.id}`}
                       className="ml-1 md:ml-2 text-black font-light text-sm border-2 border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2"

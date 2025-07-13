@@ -3,8 +3,8 @@ import Header from "../components/Header";
 import Logo from "../assets/Images/Logo.svg";
 import MealImage from "../assets/Images/mealImage.jpg";
 import { meals } from "../data/meals";
-import { NavLink, useParams } from "react-router-dom";
-import { useContext, useState } from "react";
+import { NavLink, useLocation, useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
 import { CartContext } from "../context/MealContext";
 import AddButton from "../components/AddButton";
 import Footer from "../components/Footer";
@@ -17,7 +17,7 @@ export default function MealNotes() {
   const [note, setNote] = useState("");
 
   const { id } = useParams();
-  const { addMeal } = useContext(CartContext);
+  const { addMeal, shoppingCart } = useContext(CartContext);
 
   const currentMeal = meals.find((meal) => meal.id === parseInt(id));
   const type = currentMeal.type
@@ -28,6 +28,20 @@ export default function MealNotes() {
       notes: note
     };
     addMeal(mealWithNote);
+  }
+
+
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+  window.scrollTo({
+    top: 0,
+  });
+  }, [pathname]);
+
+
+  function isMealInCart(meal) {
+  return shoppingCart.some((item) => item.id === meal.id);
   }
 
   const filteredMeals = meals.filter((meal) => meal.type === type);
@@ -46,7 +60,9 @@ export default function MealNotes() {
         </div>
         <div className="flex items-center justify-between">
           <div className="flex items-center">
-            <AddButton onClick={() => addMeal(meal)} />
+            <AddButton className = {`${isMealInCart(meal) ? "bg-white text-black" : "bg-black text-white"}`} onClick={() => addMeal(meal)}>
+              {isMealInCart(meal) ? "مضاف للسلة" : "أضف للسلة"}
+            </AddButton>
             <NavLink
               to={`/meal-notes/${meal.id}`}
               className="ml-1 md:ml-2 text-black font-light text-sm border-2 border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2"
@@ -75,7 +91,7 @@ export default function MealNotes() {
         <img alt="main_image" src={MealImage} className="w-full h-full"/>
       </section>
       <div className="p-2 absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
-        <div className="container bg-white p-7 md:py-10 md:px-20 rounded-2xl text-center md:text-right"
+        <div className="container bg-white p-7 lg:py-10 lg:px-20 rounded-2xl text-center md:text-right"
           style={{ boxShadow: "0px 10px 20px 2px rgba(0, 0, 0, 0.25)" }}>
             <div className="flex flex-col-reverse md:flex-row justify-between bold-text text-3xl">
               <p className="text-[#22935F]">{currentMeal.price} AED</p>
@@ -93,7 +109,9 @@ export default function MealNotes() {
                   onChange={(e) => setNote(e.target.value)}
                 />
               </div>
-              <AddButton onClick={handleClick} />
+            <AddButton className = {`${isMealInCart(currentMeal) ? "bg-white text-black" : "bg-black text-white"}`} onClick={handleClick}>
+              {isMealInCart(currentMeal) ? "مضاف للسلة" : "أضف للسلة"}
+            </AddButton>
             </div>
         </div>
       </div>
