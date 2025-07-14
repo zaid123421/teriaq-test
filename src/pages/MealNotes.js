@@ -46,7 +46,7 @@ export default function MealNotes() {
     <div key={index} className="bg-white shadow-md rounded-2xl">
       <img
         alt="meal_image"
-        src={meal.image}
+        src={`../../${meal.image}`}
         className="w-full h-[250px] object-cover rounded-t-2xl mb-2"
       />
       <div className="p-4 text-xl font-bold text-xl">
