@@ -15,7 +15,7 @@ import { meals } from "../data/meals";
 import { useContext, useEffect, useState } from "react";
 
 // import react-router-dom some tools
-import { NavLink, useLocation, useParams } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 
 // import CartContext context
 import { CartContext } from "../context/MealContext";
@@ -29,7 +29,10 @@ import Modal from "../components/Modal";
 export default function MealNotes() {
   // use Hooks
   const [note, setNote] = useState("");
-  const { id } = useParams();
+  // const { id } = useParams();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+  const id = params.get('id');
   const { addMeal, shoppingCart } = useContext(CartContext);
   const { pathname } = useLocation();
   const [successBox, setSuccessBox] = useState(false);
@@ -46,7 +49,7 @@ export default function MealNotes() {
     <div key={index} className="bg-white shadow-md rounded-2xl">
       <img
         alt="meal_image"
-        src={`../../${meal.image}`}
+        src={meal.image}
         className="w-full h-[250px] object-cover rounded-t-2xl mb-2"
       />
       <div className="p-4 text-xl font-bold text-xl">
