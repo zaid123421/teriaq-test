@@ -63,7 +63,7 @@ export default function MealNotes() {
               {isMealInCart(meal) ? "مضاف للسلة" : "أضف للسلة"}
             </AddButton>
             <NavLink
-              to={`/meal-notes/${meal.id}`}
+              to="/"
               className="ml-1 md:ml-2 text-black font-light text-sm border-2 border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2"
             >
               المزيد
