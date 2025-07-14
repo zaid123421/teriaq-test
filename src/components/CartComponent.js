@@ -2,6 +2,8 @@
 import { useContext } from "react";
 import { FiShoppingCart } from "react-icons/fi"
 import { CartContext } from "../context/MealContext";
+
+// import navlink from react-router-dom
 import { NavLink } from "react-router-dom";
 
 export default function CartComponent() {

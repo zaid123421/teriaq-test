@@ -15,7 +15,11 @@ export default function Modal({ successBox, icon, children }) {
         justify-center
         fixed
         p-5
-        right-[10%]
+        w-[250px]
+        md:w-[300px]
+        right-[50%]
+        translate-x-[50%]
+        md:translate-x-0
         md:right-[5%]
         duration-700
         ${successBox ? `top-[5%] md:top-auto md:bottom-[5%]` : `top-[-10%] md:top-auto md:bottom-[-10%]`}

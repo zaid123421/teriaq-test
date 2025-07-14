@@ -83,7 +83,7 @@ export default function ShoppingCart() {
 
   return (
     <>
-      <Header ul="top-[10%]" text="text-black" className="bg-gray-200" img={Logo2} />
+      <Header ul="top-[15%] text-white" className="bg-gray-200" img={Logo2} />
       <div className="bg-gray-200 w-full flex flex-col items-center p-10">
         <div className="container bg-white rounded-xl text-right h-fit mb-10 p-12">
           <div className="flex justify-end items-center text-[#22935F]">
