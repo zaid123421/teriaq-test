@@ -3,31 +3,50 @@ import Header from "../components/Header";
 import Footer from "../components/Footer";
 
 // import icons
-import { FaMinus, FaWhatsapp } from "react-icons/fa";
+import { FaCheckCircle, FaMinus, FaWhatsapp } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { LuTrash } from "react-icons/lu";
 import { FiShoppingCart } from "react-icons/fi";
+import { MdDelete } from "react-icons/md";
+
 
 // import hooks
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 
 // import CartContext context
 import { CartContext } from "../context/MealContext";
 
 // import images
 import Logo2 from "../assets/Images/Logo2.svg"
+import deleteConfirm from "../assets/Images/deleteConfirm.jpg";
 
 // import axios library
 import axios from "axios";
+import Modal from "../components/Modal";
 
 export default function ShoppingCart() {
   // use Hooks
   const { shoppingCart, removeMeal, incrementQuantity, decrementQuantity } = useContext(CartContext);
+  const [confirmBox, setConfirmBox] = useState(false);
+  const [i, setI] = useState(null);
+  const [successBox, setSuccessBox] = useState(false);
 
   // calculate the total price
   const totalPrice = shoppingCart.reduce(
     (total, meal) => total + (meal.price * meal.quantity), 0
   );
+
+  // useEffect
+  useEffect(() => {
+  if (confirmBox) {
+    document.body.style.overflow = "hidden"; 
+  } else {
+    document.body.style.overflow = "auto";
+  }
+  return () => {
+    document.body.style.overflow = "auto";  
+  };
+}, [confirmBox]);
 
   // functions
   async function Order() {
@@ -46,6 +65,20 @@ export default function ShoppingCart() {
     } catch {
       console.error("Failure");
     }
+  }
+
+  function remove() {
+    removeMeal(i);
+    setConfirmBox(false);
+    setSuccessBox(true);
+    setTimeout(() => {
+      setSuccessBox(false);
+    }, 5000)
+  }
+
+  function handleDeleteClick(index) {
+    setI(index);
+    setConfirmBox(true);
   }
 
   return (
@@ -90,7 +123,7 @@ export default function ShoppingCart() {
               <div className="text-[#22935F] bold-text text-2xl w-[150px] mb-5 md:mb-0">
                 {(meal.price * (meal.quantity || 1)).toFixed(0)} AED
               </div>
-              <div className="cursor-pointer" onClick={() => removeMeal(index)}>
+              <div className="cursor-pointer" onClick={() => handleDeleteClick(index)}>
                 <LuTrash className="text-3xl text-gray-400 hover:text-gray-600 duration-300" />
               </div>
             </div>
@@ -112,6 +145,22 @@ export default function ShoppingCart() {
           </div>
         </div>
       </div>
+      {
+        confirmBox &&
+        <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-2">
+          <div className="bg-white rounded-xl p-5 text-xl flex flex-col items-center shadow-xl">
+            <img alt="image_delete" src={deleteConfirm} className="w-[200px]"/>
+            <p className="my-5 text-center md:text-right">هل تريد حقاً حذف الوجبة من سلة المشتريات ؟</p>
+            <div className="flex justify-between w-full">
+              <button className="bg-[#DD1015] border-2 border-[#DD1015] p-2 rounded-xl text-white hover:bg-transparent hover:text-black duration-300" onClick={() => remove(i)}>حذف</button>
+              <button className="bg-[#9e9e9e] border-2 border-[#9e9e9e] p-2 rounded-xl text-white hover:bg-transparent hover:text-black duration-300" onClick={() => setConfirmBox(false)}>تراجع</button>
+            </div>
+          </div>
+        </div>
+      }
+      <Modal successBox = {successBox} icon={<MdDelete className="text-[#DD1015] mr-2" />}>
+        تم حذف الوجبة من السلة بنجاح
+      </Modal>
       <Footer />
     </>
   );

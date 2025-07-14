@@ -1,0 +1,28 @@
+export default function Modal({ successBox, icon, children }) {
+  return(
+    <div
+      className={
+        `
+        md:text-xl
+        success-box
+        rounded-2xl
+        bg-white
+        shadow-2xs
+        text-black
+        bold-text
+        flex
+        items-center
+        justify-center
+        fixed
+        p-5
+        right-[10%]
+        md:right-[5%]
+        duration-700
+        ${successBox ? `top-[5%] md:top-auto md:bottom-[5%]` : `top-[-10%] md:top-auto md:bottom-[-10%]`}
+        `
+      }>
+      {icon}
+      {children}
+    </div>
+  );
+}
