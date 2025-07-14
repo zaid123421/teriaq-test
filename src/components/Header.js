@@ -1,15 +1,25 @@
-import { FiShoppingCart } from "react-icons/fi"
-import Link from './Link';
-import { NavLink } from 'react-router-dom';
+// import icons
 import { FaBarsStaggered } from "react-icons/fa6";
+import { FiShoppingCart } from "react-icons/fi"
+
+// import hooks
 import { useContext, useState } from "react";
+
+// import navlink from react-router-dom
+import { NavLink } from 'react-router-dom';
+
+// import context
 import { CartContext } from "../context/MealContext";
 
-export default function Header({ img, text, className, ul }) {
-  const [active, setActive] = useState(false);
+// import components
+import Link from './Link';
 
+export default function Header({ img, text, className, ul }) {
+  // use hooks
+  const [active, setActive] = useState(false);
   const shoppingCart = useContext(CartContext);
 
+  // functions
   function handleClick() {
     setActive(!active);
     console.log(active);

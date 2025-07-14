@@ -1,3 +1,4 @@
+// import icons
 import { IoCall } from "react-icons/io5";
 
 export default function Contact({className, bg, text, label, number1, number2}) {

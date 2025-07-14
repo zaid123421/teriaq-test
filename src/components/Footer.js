@@ -1,8 +1,14 @@
-import Logo from '../assets/Images/Logo.svg';
-import Link from './Link';
+// import icons
 import { RiLinkedinFill } from "react-icons/ri";
 import { TiSocialFacebook } from "react-icons/ti";
 import { FaTwitter } from "react-icons/fa";
+
+// import images
+import Logo from '../assets/Images/Logo.svg';
+
+// import components
+import Link from './Link';
+
 
 
 export default function Footer() {

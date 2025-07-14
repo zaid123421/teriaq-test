@@ -24,6 +24,7 @@ import { CartContext } from "../context/MealContext";
 // import images
 import Logo from "../assets/Images/Logo.svg";
 import MealImage from "../assets/Images/mealImage.jpg";
+import CartComponent from "../components/CartComponent";
 
 export default function MealNotes() {
   // use Hooks
@@ -101,9 +102,11 @@ export default function MealNotes() {
   return(
     <div className="flex flex-col items-center realtive">
       <Header ul="top-[100%]" className="absolute top-0" text="text-white" img={Logo} />
+      
       <section className="w-full h-screen bg-contain">
         <img alt="main_image" src={MealImage} className="w-full h-full"/>
       </section>
+
       <div className="p-2 absolute left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%]">
         <div className="container bg-white p-7 lg:py-10 lg:px-20 rounded-2xl text-center md:text-right"
           style={{ boxShadow: "0px 10px 20px 2px rgba(0, 0, 0, 0.25)" }}>
@@ -129,6 +132,7 @@ export default function MealNotes() {
             </div>
         </div>
       </div>
+
       <section className="py-20 flex flex-col items-center">
         <h1 className="text-3xl text-[#22935F] font-bold">أصناف مشابهة</h1>
         <div className="px-2 md:px-0 mt-5 container grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4 flex flex-wrap justify-center">
@@ -153,6 +157,9 @@ export default function MealNotes() {
           />
         </div>
       </section>
+
+        <CartComponent />
+
       <Footer />
     </div>
   );

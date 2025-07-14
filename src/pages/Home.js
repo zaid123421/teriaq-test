@@ -39,6 +39,7 @@ import img6 from "../assets/Images/6.jpg";
 // import react-router-dom some tools
 import { NavLink, useLocation } from "react-router-dom";
 import Modal from "../components/Modal";
+import CartComponent from "../components/CartComponent";
 
 export default function Home() {
   // use Hooks
@@ -281,11 +282,14 @@ export default function Home() {
           </article>
         </section>
 
-        <Footer />
-
         <Modal successBox = {successBox} icon={<FaCheckCircle className="text-green-500 mr-2" />}>
           تمت إضافة الوجبة للسلة بنجاح
         </Modal>
+
+        <CartComponent />
+
+        <Footer />
+
       </div>
   );
 }
