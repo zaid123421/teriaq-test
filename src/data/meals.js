@@ -12,7 +12,7 @@ export const meals = [
     price: 4003,
     type: "sh",
     image: img5,
-    notes: "بلا حد",
+    notes: "",
     rate: 5,
     meal_ingredients: "خبز مشروح - طرطور - بقدونس - بصل - بطاطا - مخلل - دبس الرمان"
   },

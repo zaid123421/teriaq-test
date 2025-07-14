@@ -1,13 +1,13 @@
 export default function Modal({ successBox, icon, children }) {
   return(
     <div
+      style={{ boxShadow: "0px 10px 20px 2px rgba(0, 0, 0, 0.25)" }}
       className={
         `
         md:text-xl
         success-box
         rounded-2xl
         bg-white
-        shadow-2xs
         text-black
         bold-text
         flex

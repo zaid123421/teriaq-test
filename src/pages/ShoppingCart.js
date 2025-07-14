@@ -94,11 +94,11 @@ export default function ShoppingCart() {
             <p dir="rtl" className="text-center text-xl mt-10 text-gray-500">لا يوجد عناصر في السلة</p>
           )}
           {shoppingCart.map((meal, index) => (
-            <div key={index} className="flex items-center flex-col text-center md:text-right md:flex-row-reverse my-8 md:mb-0 justify-between">
+            <div key={index} className="flex items-center flex-col text-center md:text-right md:flex-row-reverse pt-8 md:mb-0 justify-between">
               <div className="mb-5 md:mb-0">
                 <p className="text-[#DD1015] text-3xl">{meal.name}</p>
                 <p className="text-[#BBBBBB] text-lg w-[200px]">
-                  {meal.notes ? meal.notes : "الملاحظات ان وجدت"}
+                  {meal.notes ? meal.notes : null}
                 </p>
               </div>
               <div className="flex items-center mb-5 md:mb-0">

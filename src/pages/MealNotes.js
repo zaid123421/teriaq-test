@@ -6,8 +6,7 @@ import Title from "../components/Title";
 import Contact from "../components/Contact";
 
 // import icons
-import { FaStar } from "react-icons/fa";
-import { FaRegStar } from "react-icons/fa";
+import { FaStar, FaCheckCircle, FaRegStar } from "react-icons/fa";
 
 //import data
 import { meals } from "../data/meals";
@@ -25,6 +24,7 @@ import { CartContext } from "../context/MealContext";
 import Logo from "../assets/Images/Logo.svg";
 import MealImage from "../assets/Images/mealImage.jpg";
 import CartComponent from "../components/CartComponent";
+import Modal from "../components/Modal";
 
 export default function MealNotes() {
   // use Hooks
@@ -32,6 +32,7 @@ export default function MealNotes() {
   const { id } = useParams();
   const { addMeal, shoppingCart } = useContext(CartContext);
   const { pathname } = useLocation();
+  const [successBox, setSuccessBox] = useState(false);
 
   // Variables
   const currentMeal = meals.find((meal) => meal.id === parseInt(id));
@@ -88,11 +89,15 @@ export default function MealNotes() {
 
   // functions
   function handleClick() {
-  const mealWithNote = {
-    ...currentMeal,
-    notes: note
-  };
-  addMeal(mealWithNote);
+    const mealWithNote = {
+      ...currentMeal,
+      notes: note
+    };
+    addMeal(mealWithNote);
+    setSuccessBox(true);
+    setTimeout(() => {
+      setSuccessBox(false);
+    }, 5000)
   }
 
   function isMealInCart(meal) {
@@ -159,6 +164,10 @@ export default function MealNotes() {
       </section>
 
         <CartComponent />
+
+        <Modal successBox = {successBox} icon={<FaCheckCircle className="text-green-500 mr-2" />}>
+          تم إضافة الوجبة للسلة بنجاح
+        </Modal>
 
       <Footer />
     </div>
