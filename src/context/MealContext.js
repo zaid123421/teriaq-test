@@ -1,55 +1,117 @@
-import { createContext, useState, useEffect } from "react";
+import {
+  createContext,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+} from "react";
 
+export const CartStateContext = createContext();
+export const CartDispatchContext = createContext();
 export const CartContext = createContext();
 
-export const MealsProvider = ({ children }) => {
-  const [shoppingCart, setShoppingCart] = useState(() => {
+function loadCartFromStorage() {
+  try {
     const saved = localStorage.getItem("shoppingCart");
     return saved ? JSON.parse(saved) : [];
-  });
+  } catch {
+    return [];
+  }
+}
+
+export const MealsProvider = ({ children }) => {
+  const [shoppingCart, setShoppingCart] = useState(loadCartFromStorage);
+  const saveTimeoutRef = useRef(null);
 
   useEffect(() => {
-    localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
+    if (saveTimeoutRef.current) {
+      clearTimeout(saveTimeoutRef.current);
+    }
+
+    saveTimeoutRef.current = setTimeout(() => {
+      try {
+        localStorage.setItem("shoppingCart", JSON.stringify(shoppingCart));
+      } catch {
+        // ignore storage errors
+      }
+    }, 300);
+
+    return () => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
+      }
+    };
   }, [shoppingCart]);
 
-  const removeMeal = (removeIndex) => {
+  const removeMeal = useCallback((removeIndex) => {
     setShoppingCart((prev) => prev.filter((_, index) => index !== removeIndex));
-  };
+  }, []);
 
-  const addMeal = (meal) => {
+  const addMeal = useCallback((meal) => {
     setShoppingCart((prev) => {
       const existingIndex = prev.findIndex((m) => m.id === meal.id);
       if (existingIndex !== -1) {
         const updated = [...prev];
-        updated[existingIndex].quantity = (updated[existingIndex].quantity || 1) + 1;
+        const existing = updated[existingIndex];
+        updated[existingIndex] = {
+          ...existing,
+          quantity: (existing.quantity || 1) + 1,
+        };
         return updated;
-      } else {
-        return [...prev, { ...meal, quantity: 1 }];
       }
+      return [...prev, { ...meal, quantity: 1 }];
     });
-  };
+  }, []);
 
-  const incrementQuantity = (index) => {
+  const incrementQuantity = useCallback((index) => {
     setShoppingCart((prev) => {
       const updated = [...prev];
-      updated[index].quantity = (updated[index].quantity || 1) + 1;
+      const item = updated[index];
+      updated[index] = {
+        ...item,
+        quantity: (item.quantity || 1) + 1,
+      };
       return updated;
     });
-  };
+  }, []);
 
-  const decrementQuantity = (index) => {
+  const decrementQuantity = useCallback((index) => {
     setShoppingCart((prev) => {
       const updated = [...prev];
-      if ((updated[index].quantity || 1) > 1) {
-        updated[index].quantity -= 1;
+      const item = updated[index];
+      if ((item.quantity || 1) > 1) {
+        updated[index] = {
+          ...item,
+          quantity: item.quantity - 1,
+        };
       }
       return updated;
     });
-  };
+  }, []);
+
+  const stateValue = useMemo(
+    () => ({ shoppingCart, cartCount: shoppingCart.length }),
+    [shoppingCart]
+  );
+
+  const dispatchValue = useMemo(
+    () => ({ addMeal, removeMeal, incrementQuantity, decrementQuantity }),
+    [addMeal, removeMeal, incrementQuantity, decrementQuantity]
+  );
+
+  const legacyValue = useMemo(
+    () => ({ ...stateValue, ...dispatchValue }),
+    [stateValue, dispatchValue]
+  );
 
   return (
-    <CartContext.Provider value={{ shoppingCart, addMeal, removeMeal, incrementQuantity, decrementQuantity }}>
-      {children}
-    </CartContext.Provider>
+    <CartStateContext.Provider value={stateValue}>
+      <CartDispatchContext.Provider value={dispatchValue}>
+        <CartContext.Provider value={legacyValue}>
+          {children}
+        </CartContext.Provider>
+      </CartDispatchContext.Provider>
+    </CartStateContext.Provider>
   );
 };

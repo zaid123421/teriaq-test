@@ -1,85 +1,72 @@
-// import components
-import Header from "../components/Header";
-import Footer from "../components/Footer";
-
-// import icons
-import { FaCheckCircle, FaMinus, FaWhatsapp } from "react-icons/fa";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { FaMinus, FaWhatsapp } from "react-icons/fa";
 import { IoMdAdd } from "react-icons/io";
 import { LuTrash } from "react-icons/lu";
 import { FiShoppingCart } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
-
-
-// import hooks
-import { useContext, useEffect, useState } from "react";
-
-// import CartContext context
-import { CartContext } from "../context/MealContext";
-
-// import images
-import Logo2 from "../assets/Images/Logo2.svg"
+import Header from "../components/Header";
+import Footer from "../components/Footer";
+import Modal from "../components/Modal";
+import { useCart } from "../hooks/useCart";
+import { useSuccessToast } from "../hooks/useSuccessToast";
+import { getCartTotalPrice } from "../utils/cart";
+import Logo2 from "../assets/Images/Logo2.svg";
 import deleteConfirm from "../assets/Images/deleteConfirm.jpg";
 
-// import axios library
-import axios from "axios";
-import Modal from "../components/Modal";
-
 export default function ShoppingCart() {
-  // use Hooks
-  const { shoppingCart, removeMeal, incrementQuantity, decrementQuantity } = useContext(CartContext);
+  const { shoppingCart, removeMeal, incrementQuantity, decrementQuantity } =
+    useCart();
   const [confirmBox, setConfirmBox] = useState(false);
-  const [i, setI] = useState(null);
-  const [successBox, setSuccessBox] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [successBox, showSuccess] = useSuccessToast();
 
-  // calculate the total price
-  const totalPrice = shoppingCart.reduce(
-    (total, meal) => total + (meal.price * meal.quantity), 0
+  const totalPrice = useMemo(
+    () => getCartTotalPrice(shoppingCart),
+    [shoppingCart]
   );
 
-  // useEffect
   useEffect(() => {
-  if (confirmBox) {
-    document.body.style.overflow = "hidden"; 
-  } else {
-    document.body.style.overflow = "auto";
-  }
-  return () => {
-    document.body.style.overflow = "auto";  
-  };
-}, [confirmBox]);
+    if (confirmBox) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
 
-  // functions
-  async function Order() {
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [confirmBox]);
+
+  const order = useCallback(async () => {
     try {
-      const res = await axios.post("https://fakeUrl",
-        {
-          meals: shoppingCart,
-          price: totalPrice
+      await fetch("https://fakeUrl", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        { headers: {
-          // "Authorization" : token
-          }
-        }
-      );
+        body: JSON.stringify({
+          meals: shoppingCart,
+          price: totalPrice,
+        }),
+      });
       console.log("Success");
     } catch {
       console.error("Failure");
     }
-  }
+  }, [shoppingCart, totalPrice]);
 
-  function remove() {
-    removeMeal(i);
+  const remove = useCallback(() => {
+    if (selectedIndex === null) return;
+
+    removeMeal(selectedIndex);
     setConfirmBox(false);
-    setSuccessBox(true);
-    setTimeout(() => {
-      setSuccessBox(false);
-    }, 5000)
-  }
+    showSuccess();
+  }, [selectedIndex, removeMeal, showSuccess]);
 
-  function handleDeleteClick(index) {
-    setI(index);
+  const handleDeleteClick = useCallback((index) => {
+    setSelectedIndex(index);
     setConfirmBox(true);
-  }
+  }, []);
 
   return (
     <>
@@ -131,7 +118,7 @@ export default function ShoppingCart() {
         </div>
         <div className="bg-white container rounded-xl flex relative">
           <div className="flex flex-col-reverse md:flex-row w-full">
-            <button onClick={Order} className="flex items-center justify-center bg-[#22935F] hover:bg-[#1c744c] duration-300 text-white rounded-xl md:w-[400px] text-lg md:text-2xl h-[50px] md:h-full w-full">
+            <button onClick={order} className="flex items-center justify-center bg-[#22935F] hover:bg-[#1c744c] duration-300 text-white rounded-xl md:w-[400px] text-lg md:text-2xl h-[50px] md:h-full w-full">
               اطلب الآن
               <FaWhatsapp className="text-3xl ml-3" />
             </button>
@@ -145,20 +132,19 @@ export default function ShoppingCart() {
           </div>
         </div>
       </div>
-      {
-        confirmBox &&
+      {confirmBox && (
         <div className="fixed inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center p-2">
           <div className="bg-white rounded-xl p-5 text-xl flex flex-col items-center shadow-xl">
             <img alt="image_delete" src={deleteConfirm} className="w-[200px]"/>
             <p className="my-5 text-center md:text-right">هل تريد حقاً حذف الوجبة من سلة المشتريات ؟</p>
             <div className="flex justify-between w-full">
-              <button className="bg-[#DD1015] border-2 border-[#DD1015] p-2 rounded-xl text-white hover:bg-transparent hover:text-black duration-300" onClick={() => remove(i)}>حذف</button>
+              <button className="bg-[#DD1015] border-2 border-[#DD1015] p-2 rounded-xl text-white hover:bg-transparent hover:text-black duration-300" onClick={remove}>حذف</button>
               <button className="bg-[#9e9e9e] border-2 border-[#9e9e9e] p-2 rounded-xl text-white hover:bg-transparent hover:text-black duration-300" onClick={() => setConfirmBox(false)}>تراجع</button>
             </div>
           </div>
         </div>
-      }
-      <Modal successBox = {successBox} icon={<MdDelete className="text-[#DD1015] mr-2" />}>
+      )}
+      <Modal successBox={successBox} icon={<MdDelete className="text-[#DD1015] mr-2" />}>
         تم حذف الوجبة من السلة بنجاح
       </Modal>
       <Footer />

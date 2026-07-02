@@ -3,13 +3,9 @@ import { FaBarsStaggered } from "react-icons/fa6";
 import { FiShoppingCart } from "react-icons/fi"
 
 // import hooks
-import { useContext, useState } from "react";
-
-// import navlink from react-router-dom
+import { useState } from "react";
 import { NavLink } from 'react-router-dom';
-
-// import context
-import { CartContext } from "../context/MealContext";
+import { useCartState } from "../hooks/useCart";
 
 // import components
 import Link from './Link';
@@ -17,12 +13,11 @@ import Link from './Link';
 export default function Header({ img, text, className, ul }) {
   // use hooks
   const [active, setActive] = useState(false);
-  const shoppingCart = useContext(CartContext);
+  const { cartCount } = useCartState();
 
   // functions
   function handleClick() {
     setActive(!active);
-    console.log(active);
   }
 
   return(
@@ -54,7 +49,7 @@ export default function Header({ img, text, className, ul }) {
           <NavLink to="/shopping-cart" className={({ isActive }) => `relative border-b-2 border-transparent hover:border-[#DD1015] duration-300 ml-5 pb-2 ${isActive ? `border-[#DD1015]`: `border-b-transparent`} ${text}`}>
             <FiShoppingCart className='text-xl md:text-2xl mr-2' />
             <span className={`bold-text flex items-center justify-center absolute top-[-10px] right-[-8px] w-[20px] h-[20px] rounded-full bg-white text-xs text-black`}>
-              {shoppingCart.shoppingCart.length}
+              {cartCount}
             </span>
           </NavLink>
           <button className={`${text} 'ml-7 pb-2`}>EN</button>

@@ -1,116 +1,91 @@
-// import coponents
+import { useCallback, useMemo, useState } from "react";
+import { NavLink, useLocation } from "react-router-dom";
+import { FaCheckCircle } from "react-icons/fa";
 import Header from "../components/Header";
 import AddButton from "../components/AddButton";
 import Footer from "../components/Footer";
 import Title from "../components/Title";
 import Contact from "../components/Contact";
-
-// import icons
-import { FaStar, FaCheckCircle, FaRegStar } from "react-icons/fa";
-
-//import data
-import { meals } from "../data/meals";
-
-// import hooks
-import { useContext, useEffect, useState } from "react";
-
-// import react-router-dom some tools
-import { NavLink, useLocation } from "react-router-dom";
-
-// import CartContext context
-import { CartContext } from "../context/MealContext";
-
-// import images
-import Logo from "../assets/Images/Logo.svg";
-import MealImage from "../assets/Images/mealImage.jpg";
+import MealCard from "../components/meal/MealCard";
 import CartComponent from "../components/CartComponent";
 import Modal from "../components/Modal";
+import { meals } from "../data/meals";
+import { useCart } from "../hooks/useCart";
+import { useScrollToTop } from "../hooks/useScrollToTop";
+import { useSuccessToast } from "../hooks/useSuccessToast";
+import { createCartMealIdSet } from "../utils/cart";
+import Logo from "../assets/Images/Logo.svg";
+import MealImage from "../assets/Images/mealImage.jpg";
 
 export default function MealNotes() {
-  // use Hooks
   const [note, setNote] = useState("");
-  // const { id } = useParams();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-  const id = params.get('id');
-  const { addMeal, shoppingCart } = useContext(CartContext);
-  const { pathname } = useLocation();
-  const [successBox, setSuccessBox] = useState(false);
+  const id = params.get("id");
+  const { addMeal, shoppingCart } = useCart();
+  const [successBox, showSuccess] = useSuccessToast();
 
-  // Variables
-  const currentMeal = meals.find((meal) => meal.id === parseInt(id));
-  const type = currentMeal.type
+  useScrollToTop();
 
-  // filter data according to the type of the currents meal
-  const filteredMeals = meals.filter((meal) => meal.type === type);
+  const currentMeal = useMemo(
+    () => meals.find((meal) => meal.id === parseInt(id, 10)),
+    [id]
+  );
 
-  // use meal data to show in box
-  const showCards = filteredMeals.map((meal, index) => (
-    <div key={index} className="bg-white shadow-md rounded-2xl">
-      <img
-        alt="meal_image"
-        src={meal.image}
-        className="w-full h-[250px] object-cover rounded-t-2xl mb-2"
-      />
-      <div className="p-4 text-xl font-bold text-xl">
-        <div className="flex items-center justify-between mb-2">
-          <p className="text-[#DD1015]">{meal.price} AED</p>
-          <p className="text-lg">{meal.name}</p>
-        </div>
-        <div className="flex items-center justify-between">
-          <div className="flex items-center">
-            <AddButton className = {`${isMealInCart(meal) ? "bg-white text-black" : "bg-black text-white"}`} onClick={() => addMeal(meal)}>
-              {isMealInCart(meal) ? "مضاف للسلة" : "أضف للسلة"}
-            </AddButton>
-            <NavLink
-              to="/"
-              className="ml-1 md:ml-2 text-black font-light text-sm border-2 border-[#22935F] hover:bg-transparent hover:text-black duration-300 bg-[#22935F] text-white rounded-full p-2"
-            >
-              المزيد
-            </NavLink>
-          </div>
-          <div className="flex items-center">
-            {Array.from({ length: 5 }).map((_, i) =>
-              i < meal.rate ? (
-                <FaStar key={i} className="text-[#EFC101] mr-1" />
-              ) : (
-                <FaRegStar key={i} className="text-[#EFC101] mr-1" />
-              )
-            )}
-          </div>
-        </div>
-      </div>
-    </div>
-  ));
+  const cartMealIds = useMemo(
+    () => createCartMealIdSet(shoppingCart),
+    [shoppingCart]
+  );
 
-  // useEffect
-  useEffect(() => {
-  window.scrollTo({
-    top: 0,
-  });
-  }, [pathname]);
+  const isMealInCart = useCallback(
+    (meal) => cartMealIds.has(meal.id),
+    [cartMealIds]
+  );
 
-  // functions
-  function handleClick() {
+  const filteredMeals = useMemo(() => {
+    if (!currentMeal) return [];
+    return meals.filter((meal) => meal.type === currentMeal.type);
+  }, [currentMeal]);
+
+  const showCards = useMemo(
+    () =>
+      filteredMeals.map((meal, index) => (
+        <MealCard
+          key={index}
+          meal={meal}
+          isInCart={isMealInCart(meal)}
+          onAdd={addMeal}
+          detailTo="/"
+          variant="shadow"
+        />
+      )),
+    [filteredMeals, isMealInCart, addMeal]
+  );
+
+  const handleClick = useCallback(() => {
+    if (!currentMeal) return;
+
     const mealWithNote = {
       ...currentMeal,
-      notes: note
+      notes: note,
     };
     addMeal(mealWithNote);
-    setSuccessBox(true);
-    setTimeout(() => {
-      setSuccessBox(false);
-    }, 5000)
+    showSuccess();
+  }, [currentMeal, note, addMeal, showSuccess]);
+
+  if (!currentMeal) {
+    return (
+      <div className="flex flex-col items-center realtive">
+        <Header ul="top-[100%]" className="absolute top-0" text="text-white" img={Logo} />
+        <Footer />
+      </div>
+    );
   }
 
-  function isMealInCart(meal) {
-  return shoppingCart.some((item) => item.id === meal.id);
-  }
-
-  return(
+  return (
     <div className="flex flex-col items-center realtive">
       <Header ul="top-[100%]" className="absolute top-0" text="text-white" img={Logo} />
-      
+
       <section className="w-full h-screen bg-contain">
         <img alt="main_image" src={MealImage} className="w-full h-full"/>
       </section>
@@ -134,7 +109,7 @@ export default function MealNotes() {
                   onChange={(e) => setNote(e.target.value)}
                 />
               </div>
-            <AddButton className = {`${isMealInCart(currentMeal) ? "bg-white text-black" : "bg-black text-white"}`} onClick={handleClick}>
+            <AddButton className={`${isMealInCart(currentMeal) ? "bg-white text-black" : "bg-black text-white"}`} onClick={handleClick}>
               {isMealInCart(currentMeal) ? "مضاف للسلة" : "أضف للسلة"}
             </AddButton>
             </div>
@@ -166,11 +141,11 @@ export default function MealNotes() {
         </div>
       </section>
 
-        <CartComponent />
+      <CartComponent />
 
-        <Modal successBox = {successBox} icon={<FaCheckCircle className="text-green-500 mr-2" />}>
-          تم إضافة الوجبة للسلة بنجاح
-        </Modal>
+      <Modal successBox={successBox} icon={<FaCheckCircle className="text-green-500 mr-2" />}>
+        تم إضافة الوجبة للسلة بنجاح
+      </Modal>
 
       <Footer />
     </div>
