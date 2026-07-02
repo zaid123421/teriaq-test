@@ -15,7 +15,7 @@ import { useScrollToTop } from "../hooks/useScrollToTop";
 import { useSuccessToast } from "../hooks/useSuccessToast";
 import { createCartMealIdSet } from "../utils/cart";
 import Map from "../assets/Images/Map.svg";
-import Logo from "../assets/Images/Logo.svg";
+import { LOGO } from "../constants/images";
 import shawrma from "../assets/Images/shawrma.svg";
 import snack from "../assets/Images/snack.svg";
 import brosted from "../assets/Images/brosted.svg";
@@ -102,7 +102,7 @@ export default function Home() {
 
   return (
     <div>
-      <Header ul="top-[100%]" className="absolute top-0" text="text-white" img={Logo} />
+      <Header ul="top-[100%]" className="absolute top-0" text="text-white" img={LOGO} />
 
       <section id="main" className="w-full h-screen bg-contain">
         <img className="w-full h-full" alt="home_image" src={home_image} />

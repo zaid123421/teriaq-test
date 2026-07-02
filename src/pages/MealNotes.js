@@ -14,7 +14,7 @@ import { useCart } from "../hooks/useCart";
 import { useScrollToTop } from "../hooks/useScrollToTop";
 import { useSuccessToast } from "../hooks/useSuccessToast";
 import { createCartMealIdSet } from "../utils/cart";
-import Logo from "../assets/Images/Logo.svg";
+import { LOGO } from "../constants/images";
 import MealImage from "../assets/Images/mealImage.jpg";
 
 export default function MealNotes() {
@@ -76,7 +76,7 @@ export default function MealNotes() {
   if (!currentMeal) {
     return (
       <div className="flex flex-col items-center realtive">
-        <Header ul="top-[100%]" className="absolute top-0" text="text-white" img={Logo} />
+        <Header ul="top-[100%]" className="absolute top-0" text="text-white" img={LOGO} />
         <Footer />
       </div>
     );
@@ -84,7 +84,7 @@ export default function MealNotes() {
 
   return (
     <div className="flex flex-col items-center realtive">
-      <Header ul="top-[100%]" className="absolute top-0" text="text-white" img={Logo} />
+      <Header ul="top-[100%]" className="absolute top-0" text="text-white" img={LOGO} />
 
       <section className="w-full h-screen bg-contain">
         <img alt="main_image" src={MealImage} className="w-full h-full"/>

@@ -1,8 +1,16 @@
-import { render, screen } from '@testing-library/react';
-import App from './App';
+import { render, screen } from "@testing-library/react";
+import { BrowserRouter } from "react-router-dom";
+import Home from "./pages/Home";
+import { MealsProvider } from "./context/MealContext";
 
-test('renders learn react link', () => {
-  render(<App />);
-  const linkElement = screen.getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test("renders home page menu section", () => {
+  render(
+    <BrowserRouter>
+      <MealsProvider>
+        <Home />
+      </MealsProvider>
+    </BrowserRouter>
+  );
+
+  expect(screen.getByText(/المنيو/i)).toBeInTheDocument();
 });

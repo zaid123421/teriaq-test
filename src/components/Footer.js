@@ -4,7 +4,7 @@ import { TiSocialFacebook } from "react-icons/ti";
 import { FaTwitter } from "react-icons/fa";
 
 // import images
-import Logo from '../assets/Images/Logo.svg';
+import { LOGO } from '../constants/images';
 
 // import components
 import Link from './Link';
@@ -14,7 +14,7 @@ import Link from './Link';
 export default function Footer() {
   return(
     <footer className='w-full text-base md:text-lg lg:text-xl flex flex-col items-center justify-center px-2 py-4 md:py-8 bg-[#251f1d]'>
-      <img className='w-[100px] h-[100px]' alt='logo' src={Logo} />
+      <img className='w-[100px] h-[100px]' alt='logo' src={LOGO} />
       <nav className='w-full'>
         <ul className='text-white mt-5 flex flex-wrap items-center flex-row-reverse justify-center'>
           <Link className="ml-4 mb-2" toPlace="/" label="الرئيسية" />

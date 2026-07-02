@@ -10,7 +10,7 @@ import Modal from "../components/Modal";
 import { useCart } from "../hooks/useCart";
 import { useSuccessToast } from "../hooks/useSuccessToast";
 import { getCartTotalPrice } from "../utils/cart";
-import Logo2 from "../assets/Images/Logo2.svg";
+import { LOGO2 } from "../constants/images";
 import deleteConfirm from "../assets/Images/deleteConfirm.jpg";
 
 export default function ShoppingCart() {
@@ -70,7 +70,7 @@ export default function ShoppingCart() {
 
   return (
     <>
-      <Header ul="top-[15%] text-white" className="bg-gray-200" img={Logo2} />
+      <Header ul="top-[15%] text-white" className="bg-gray-200" img={LOGO2} />
       <div className="bg-gray-200 w-full flex flex-col items-center p-10">
         <div className="container bg-white rounded-xl text-right h-fit mb-10 p-12">
           <div className="flex justify-end items-center text-[#22935F]">
